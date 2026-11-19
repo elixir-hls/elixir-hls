@@ -1,0 +1,132 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 880" width="900" height="880" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>From Elixir to a circuit</title>
+  <style>
+    .t   { fill: #1f2328; font-size: 14px; font-weight: 600; }
+    .m   { fill: #1f2328; font-size: 13px; font-weight: 600; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .s   { fill: #59636e; font-size: 12px; }
+    .lab { fill: #59636e; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
+    .ex  { fill: #fbefff; stroke: #c297ff; }
+    .tool { fill: #ddf4ff; stroke: #54aeff; }
+    .file { fill: #f6f8fa; stroke: #8c959f; }
+    .hal { fill: #dafbe1; stroke: #4ac26b; }
+    .ver { fill: #fff8c5; stroke: #d4a72c; stroke-dasharray: 5 4; }
+    .arr { stroke: #8c959f; stroke-width: 1.5; fill: none; marker-end: url(#a); }
+    .ah  { fill: #8c959f; }
+    .br  { stroke: #d1d9e0; stroke-width: 2; fill: none; }
+    @media (prefers-color-scheme: dark) {
+      .t, .m { fill: #f0f6fc; }
+      .s, .lab { fill: #9198a1; }
+      .ex  { fill: #271052; stroke: #ab7df8; }
+      .tool { fill: #0c2d6b; stroke: #4493f8; }
+      .file { fill: #151b23; stroke: #656c76; }
+      .hal { fill: #04260f; stroke: #3fb950; }
+      .ver { fill: #272115; stroke: #bb8009; }
+      .arr { stroke: #656c76; }
+      .ah  { fill: #656c76; }
+      .br  { stroke: #3d444d; }
+    }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="ah" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- phase labels -->
+  <path class="br" d="M178,20 h-8 v130 h8"/>
+  <text class="lab" x="10" y="80">elixirc</text>
+  <text class="lab" x="10" y="96">(EHLS_OUT_DIR set)</text>
+  <path class="br" d="M178,180 h-8 v368 h8"/>
+  <text class="lab" x="10" y="356">mix ehls.compile,</text>
+  <text class="lab" x="10" y="372">per kernel</text>
+  <path class="br" d="M178,578 h-8 v50 h8"/>
+  <text class="lab" x="10" y="608">check</text>
+  <path class="br" d="M178,660 h-8 v200 h8"/>
+  <text class="lab" x="10" y="756">description</text>
+
+  <!-- defhls -->
+  <rect class="ex" x="200" y="20" width="360" height="50" rx="8"/>
+  <text class="t" x="216" y="42">defhls function</text>
+  <text class="s" x="216" y="60">lib/ehls.ex</text>
+  <path class="arr" d="M560,45 H598"/>
+  <rect class="ex" x="600" y="20" width="280" height="50" rx="8"/>
+  <text class="t" x="616" y="42">CPU function</text>
+  <text class="s" x="616" y="60">arguments, result wrapped to their types</text>
+  <path class="arr" d="M380,70 V98"/>
+  <path class="arr" d="M520,70 V84 H740 V98"/>
+
+  <!-- compile-time outputs -->
+  <rect class="file" x="200" y="100" width="360" height="50" rx="8"/>
+  <text class="m" x="216" y="122">&lt;kernel&gt;.mlir</text>
+  <text class="s" x="216" y="140">EHLS.MLIR: func / arith / cf / memref, widths</text>
+  <rect class="file" x="600" y="100" width="280" height="50" rx="8"/>
+  <text class="m" x="616" y="122">&lt;kernel&gt;.sig</text>
+  <text class="s" x="616" y="140">JSON: types, state, params, memories</text>
+  <path class="arr" d="M380,150 V178"/>
+
+  <!-- the CIRCT flow -->
+  <rect class="tool" x="200" y="180" width="360" height="40" rx="8"/>
+  <text class="m" x="216" y="205">mlir-opt --canonicalize --cse</text>
+  <path class="arr" d="M380,220 V232"/>
+  <rect class="tool" x="200" y="234" width="360" height="40" rx="8"/>
+  <text class="m" x="216" y="259">sink_constants.py</text>
+  <text class="s" x="372" y="259">constants back into their blocks</text>
+  <path class="arr" d="M380,274 V286"/>
+  <rect class="tool" x="200" y="288" width="360" height="40" rx="8"/>
+  <text class="m" x="216" y="313">hlstool --dynamic-hw</text>
+  <text class="s" x="390" y="313">to a handshake circuit</text>
+  <path class="arr" d="M380,328 V340"/>
+  <rect class="tool" x="200" y="342" width="360" height="40" rx="8"/>
+  <text class="m" x="216" y="367">pipeline_buffers.py</text>
+  <text class="s" x="372" y="367">buffers where paths get long</text>
+  <rect class="hal" x="600" y="337" width="240" height="50" rx="8"/>
+  <text class="t" x="616" y="358">device backend</text>
+  <text class="s" x="616" y="376">delay model, budget</text>
+  <path class="arr" d="M600,362 H562"/>
+  <path class="arr" d="M380,382 V394"/>
+  <rect class="tool" x="200" y="396" width="360" height="40" rx="8"/>
+  <text class="m" x="216" y="421">hlstool --verilog</text>
+  <path class="arr" d="M380,436 V448"/>
+  <rect class="tool" x="200" y="450" width="360" height="40" rx="8"/>
+  <text class="m" x="216" y="475">prefix_modules.py</text>
+  <text class="s" x="372" y="475">unique helper module names</text>
+  <path class="arr" d="M380,490 V502"/>
+
+  <!-- outputs -->
+  <rect class="file" x="200" y="504" width="360" height="44" rx="8"/>
+  <text class="m" x="216" y="531">&lt;kernel&gt;.sv</text>
+  <text class="s" x="330" y="531">the kernel, valid / ready ports</text>
+  <path class="arr" d="M870,150 V512 H842"/>
+  <rect class="tool" x="600" y="497" width="240" height="58" rx="8"/>
+  <text class="m" x="616" y="518">gen_space.py</text>
+  <text class="s" x="616" y="534">tables, memories: one address</text>
+  <text class="s" x="616" y="548">space module, &lt;kernel&gt;_space.v</text>
+  <path class="arr" d="M380,548 V576"/>
+  <path class="arr" d="M720,555 V576"/>
+
+  <!-- verification -->
+  <rect class="ver" x="200" y="578" width="680" height="50" rx="8"/>
+  <text class="t" x="216" y="600">simulation: gen_tb.py / gen_stream_tb.py + iverilog</text>
+  <text class="s" x="216" y="618">each kernel against its CPU function, edge values and random inputs; a mismatch stops the build</text>
+
+  <!-- description -->
+  <rect class="ex" x="200" y="660" width="330" height="50" rx="8"/>
+  <text class="t" x="216" y="682">definstance</text>
+  <text class="s" x="216" y="700">.pipeline: stages, fused window kernels</text>
+  <rect class="ex" x="550" y="660" width="330" height="50" rx="8"/>
+  <text class="t" x="566" y="682">use EHLS, blocks / peripherals</text>
+  <text class="s" x="566" y="700">.packages, .peripherals</text>
+  <path class="arr" d="M365,710 V738"/>
+  <path class="arr" d="M715,710 V738"/>
+  <rect class="tool" x="200" y="740" width="680" height="50" rx="8"/>
+  <text class="m" x="216" y="762">gen_manifest.py</text>
+  <text class="s" x="216" y="780">kernels.json, pipelines.json, packages.json, peripherals.json; numbers DMA kernels, params, state</text>
+  <path class="arr" d="M365,790 V818"/>
+  <path class="arr" d="M715,790 V818"/>
+  <rect class="hal" x="200" y="820" width="330" height="40" rx="8"/>
+  <text class="t" x="216" y="845">SoC backend</text>
+  <text class="s" x="318" y="845">builds the SoC from it</text>
+  <rect class="hal" x="550" y="820" width="330" height="40" rx="8"/>
+  <text class="t" x="566" y="845">runtime backend</text>
+  <text class="s" x="686" y="845">e.g. hw_kernels.erl</text>
+</svg>

@@ -1,0 +1,8 @@
+/_build/
+/deps/
+/build/
+erl_crash.dump
+__pycache__/
+*.pyc
+/doc/
+/tmp/

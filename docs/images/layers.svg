@@ -1,0 +1,118 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 640" width="900" height="640" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif">
+  <title>Elixir HLS layers</title>
+  <style>
+    .t   { fill: #1f2328; font-size: 14px; font-weight: 600; }
+    .s   { fill: #59636e; font-size: 12px; }
+    .lab { fill: #59636e; font-size: 12px; font-weight: 600; letter-spacing: 0.04em; }
+    .core { fill: #ddf4ff; stroke: #54aeff; }
+    .later { fill: none; stroke: #54aeff; stroke-dasharray: 5 4; }
+    .ver { fill: #f6f8fa; stroke: #8c959f; stroke-dasharray: 4 3; }
+    .hal { fill: #dafbe1; stroke: #4ac26b; }
+    .tgt { fill: #f6f8fa; stroke: #8c959f; }
+    .bnd { stroke: #fb8f44; stroke-width: 3; stroke-dasharray: 10 6; }
+    .bndlab { fill: #fff1e5; stroke: #fb8f44; }
+    .bndt { fill: #bc4c00; font-size: 12px; font-weight: 600; }
+    .arr { stroke: #8c959f; stroke-width: 1.5; fill: none; marker-end: url(#a); }
+    .ah  { fill: #8c959f; }
+    .br  { stroke: #d1d9e0; stroke-width: 2; fill: none; }
+    @media (prefers-color-scheme: dark) {
+      .t   { fill: #f0f6fc; }
+      .s, .lab { fill: #9198a1; }
+      .core { fill: #0c2d6b; stroke: #4493f8; }
+      .later { stroke: #4493f8; }
+      .ver, .tgt { fill: #151b23; stroke: #656c76; }
+      .hal { fill: #04260f; stroke: #3fb950; }
+      .bnd { stroke: #db6d28; }
+      .bndlab { fill: #3d1300; stroke: #db6d28; }
+      .bndt { fill: #ffa657; }
+      .arr { stroke: #656c76; }
+      .ah  { fill: #656c76; }
+      .br  { stroke: #3d444d; }
+    }
+  </style>
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path class="ah" d="M0,0 L10,5 L0,10 z"/>
+    </marker>
+  </defs>
+
+  <!-- left: which part each band belongs to -->
+  <path class="br" d="M128,20 h-8 v286 h8"/>
+  <text class="lab" x="10" y="160">elixir-hls</text>
+  <text class="lab" x="10" y="176">core</text>
+  <path class="br" d="M128,380 h-8 v78 h8"/>
+  <text class="lab" x="10" y="415">elixir-hls</text>
+  <text class="lab" x="10" y="431">backends</text>
+  <path class="br" d="M128,488 h-8 v130 h8"/>
+  <text class="lab" x="10" y="550">targets and</text>
+  <text class="lab" x="10" y="566">applications</text>
+
+  <!-- front ends -->
+  <rect class="core" x="150" y="20" width="420" height="56" rx="8"/>
+  <text class="t" x="166" y="44">front end: defhls / definstance</text>
+  <text class="s" x="166" y="63">Elixir AST</text>
+  <rect class="later" x="590" y="20" width="290" height="56" rx="8"/>
+  <text class="t" x="606" y="44">front end: Nx defn (later)</text>
+  <text class="s" x="606" y="63">computation graph</text>
+  <path class="arr" d="M360,76 V108"/>
+  <path class="arr" d="M735,76 V108"/>
+
+  <!-- core IR -->
+  <rect class="core" x="150" y="110" width="730" height="56" rx="8"/>
+  <text class="t" x="166" y="134">core IR</text>
+  <text class="s" x="166" y="153">typed integer dataflow: widths, state, params, memories, windows, frames</text>
+  <path class="arr" d="M515,166 V194"/>
+
+  <!-- back end -->
+  <rect class="core" x="150" y="196" width="220" height="50" rx="8"/>
+  <text class="t" x="166" y="217">MLIR</text>
+  <text class="s" x="166" y="235">func / arith / cf / memref</text>
+  <path class="arr" d="M370,221 H398"/>
+  <rect class="core" x="400" y="196" width="200" height="50" rx="8"/>
+  <text class="t" x="416" y="217">CIRCT</text>
+  <text class="s" x="416" y="235">hlstool, handshake</text>
+  <path class="arr" d="M600,221 H628"/>
+  <rect class="core" x="630" y="196" width="250" height="50" rx="8"/>
+  <text class="t" x="646" y="217">SystemVerilog</text>
+  <text class="s" x="646" y="235">kernels + stream adapters</text>
+
+  <!-- verification -->
+  <rect class="ver" x="150" y="266" width="730" height="40" rx="8"/>
+  <text class="t" x="166" y="291">verification</text>
+  <text class="s" x="270" y="291">every kernel simulated (iverilog) against its Elixir function</text>
+
+  <!-- RTL boundary -->
+  <path class="bnd" d="M150,343 H880"/>
+  <rect class="bndlab" x="270" y="330" width="490" height="26" rx="13"/>
+  <text class="bndt" x="515" y="347" text-anchor="middle">RTL boundary: SystemVerilog + a versioned description</text>
+
+  <!-- HAL backends -->
+  <rect class="hal" x="150" y="380" width="233" height="78" rx="8"/>
+  <text class="t" x="166" y="404">device</text>
+  <text class="s" x="166" y="424">Gowin GW5A · Xilinx · generic</text>
+  <text class="s" x="166" y="442">delay model, timing check</text>
+  <rect class="hal" x="398" y="380" width="233" height="78" rx="8"/>
+  <text class="t" x="414" y="404">SoC</text>
+  <text class="s" x="414" y="424">LiteX · AXI</text>
+  <text class="s" x="414" y="442">control bus, DMA, built-in blocks</text>
+  <rect class="hal" x="646" y="380" width="234" height="78" rx="8"/>
+  <text class="t" x="662" y="404">runtime</text>
+  <text class="s" x="662" y="424">AtomVM :hwstream · Nerves · none</text>
+  <text class="s" x="662" y="442">what the CPU side calls</text>
+  <path class="arr" d="M385,458 V486"/>
+  <path class="arr" d="M600,458 V472 H700 V486"/>
+
+  <!-- targets, blocks -->
+  <rect class="tgt" x="150" y="488" width="470" height="60" rx="8"/>
+  <text class="t" x="166" y="511">target: a board on the backends</text>
+  <text class="s" x="166" y="531">pins, memory, clocks, the VM build — atomvm-tang25k-hls</text>
+  <rect class="tgt" x="640" y="488" width="240" height="60" rx="8"/>
+  <text class="t" x="656" y="511">blocks</text>
+  <text class="s" x="656" y="531">block packages, per SoC backend</text>
+  <path class="arr" d="M515,548 V572"/>
+
+  <!-- applications -->
+  <rect class="tgt" x="150" y="574" width="730" height="44" rx="8"/>
+  <text class="t" x="166" y="601">applications</text>
+  <text class="s" x="270" y="601">e.g. atomvm-fm-radio</text>
+</svg>
